@@ -1,6 +1,6 @@
 let P = PIXI;
 let app = new P.Application({ width: 800, height: 600 });
-let BG, sheet, ship;
+let BG, sheet, ship, alien;
 let R = 0;
 let speed = 50;
 let z = 1;
@@ -14,6 +14,7 @@ P.Loader.shared
 	.add('assets/space.png')
 	// .add('assets/header.png')
 	.add('assets/bullet.png')
+	.add('assets/alien.png')
 	.load(setup);
 
 document.body.appendChild(app.view);
@@ -46,8 +47,9 @@ function setup() {
 	ship.x = app.screen.width / 2;
 	ship.y = app.screen.height / 2;
 
-	app.stage.addChild(BG);
-	app.stage.addChild(ship);
+	createAlien();
+
+	app.stage.addChild(BG, alien, ship);
 	// app.stage.addChild(header);
 
 	P.Ticker.shared.add(function (delta) {
@@ -114,4 +116,33 @@ function moveBullet() {
 			bullets.splice(i, 1);
 		}
 	}
+}
+function createAlien() {
+	alien = new P.Sprite(P.Loader.shared.resources['assets/alien.png'].texture);
+	alien.anchor.set(0.5);
+	alien.scale.set(0.3);
+	alien.x = Math.random() * 700 + 50;
+	alien.y = Math.random() * 500 + 50;
+	P.Ticker.shared.add(function () {
+		for (let i = 0; i < bullets.length; i++) {
+			let bullet = bullets[i];
+			if (rectIntersect(alien, bullet)) {
+				alien.x = Math.random() * 700 + 50;
+				alien.y = Math.random() * 500 + 50;
+				app.stage.removeChild(bullet);
+				bullets.splice(i, 1);
+			}
+		}
+	});
+}
+function rectIntersect(a, b) {
+	let abox = a.getBounds();
+	let bbox = b.getBounds();
+
+	return (
+		abox.x + abox.width > bbox.x &&
+		abox.x < bbox.x + bbox.width &&
+		abox.y + abox.height > bbox.y &&
+		abox.y < bbox.y + bbox.height
+	);
 }

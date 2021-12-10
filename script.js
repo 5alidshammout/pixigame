@@ -12,7 +12,7 @@ let rotateSpeed = 3;
 let bullets = [];
 let interval;
 
-let timer = 3 * 1000;
+let timer = 5 * 1000;
 let numOfBullets = 3;
 let score = 0;
 
@@ -157,7 +157,7 @@ function createAlien() {
 				alien.y = Math.random() * 500 + 50;
 				app.stage.removeChild(bullet);
 				bullets.splice(i, 1);
-				timer += 1000;
+				timer += 2000;
 				numOfBullets += 2;
 				score += 100;
 			}

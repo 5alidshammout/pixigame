@@ -35,7 +35,7 @@ function setup() {
 	// let header = new P.Sprite(
 	// 	P.Loader.shared.resources['assets/header.png'].texture
 	// );
-	let text = new PIXI.Text(`${timer / 10}\n${numOfBullets}\n${score}`, {
+	let text = new PIXI.Text(`${timer / 1000}\n${numOfBullets}\n${score}`, {
 		fontFamily: 'fredoka one',
 		fontSize: 24,
 		fill: 0x33bbff,
@@ -43,7 +43,7 @@ function setup() {
 
 	interval = setInterval(() => {
 		timer -= 10;
-		text.text = `${timer / 10}\n${numOfBullets}\n${score}`;
+		text.text = `${timer / 1000}\n${numOfBullets}\n${score}`;
 	}, 10);
 
 	BG.anchor.set(0.5);

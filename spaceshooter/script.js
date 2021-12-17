@@ -19,7 +19,6 @@ let score = 0;
 P.Loader.shared
 	.add('assets/sprite.json')
 	.add('assets/space.png')
-	// .add('assets/header.png')
 	.add('assets/bullet.png')
 	.add('assets/alien.png')
 	.load(setup);
@@ -32,9 +31,6 @@ function setup() {
 	ship = new P.AnimatedSprite.fromFrames(
 		sheet.animations['spaceship'].map(x => 'assets/' + x)
 	);
-	// let header = new P.Sprite(
-	// 	P.Loader.shared.resources['assets/header.png'].texture
-	// );
 	let text = new PIXI.Text(`${timer / 1000}\n${numOfBullets}\n${score}`, {
 		fontFamily: 'fredoka one',
 		fontSize: 24,
@@ -50,11 +46,6 @@ function setup() {
 	BG.x = app.screen.width / 2;
 	BG.y = app.screen.height / 2;
 
-	// header.alpha = 0.8;
-	// header.anchor.set(0.5);
-	// header.x = app.screen.width / 2;
-	// header.y = 0 + header.height / 2;
-
 	ship.animationSpeed = sas;
 	ship.onLoop = function () {
 		ship.stop();
@@ -67,7 +58,6 @@ function setup() {
 	createAlien();
 
 	app.stage.addChild(BG, alien, ship);
-	// app.stage.addChild(header);
 	app.stage.addChild(text);
 
 	P.Ticker.shared.add(function (delta) {

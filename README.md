@@ -1,2 +1,3 @@
-# pixigame
-a game about space I'm doing to learn pixijs
+# pixigames
+
+some games I'm doing to learn PIXI.JS

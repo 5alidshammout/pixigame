@@ -2,12 +2,12 @@ let P = PIXI;
 let app = new P.Application({ width: 800, height: 600 });
 let BG, sheet, ship, alien;
 let R = 0;
-let speed = 50;
+let movePx = 50;
 let z = 1;
 let times = 10;
-let tfa = 100;
+let moveSpeed = 100;
 let sas = 0.7;
-let bs = 10;
+let bulletPx = 10;
 let rotateSpeed = 3;
 let bullets = [];
 let interval;
@@ -85,8 +85,8 @@ function eventListener(e) {
 function moveShip() {
 	for (let i = 0; i < times; i++) {
 		setTimeout(() => {
-			let nx = ship.x + (speed * Math.cos(((R - 90) * Math.PI) / 180)) / times;
-			let ny = ship.y + (speed * Math.sin(((R - 90) * Math.PI) / 180)) / times;
+			let nx = ship.x + (movePx * Math.cos(((R - 90) * Math.PI) / 180)) / times;
+			let ny = ship.y + (movePx * Math.sin(((R - 90) * Math.PI) / 180)) / times;
 
 			if (nx < 50) {
 				ship.x = 50;
@@ -103,7 +103,7 @@ function moveShip() {
 			} else {
 				ship.y = ny;
 			}
-		}, (tfa / times) * i);
+		}, (moveSpeed / times) * i);
 	}
 }
 function createBullet() {
@@ -125,8 +125,8 @@ function createBullet() {
 function moveBullet() {
 	for (let i = 0; i < bullets.length; i++) {
 		let bullet = bullets[i];
-		bullet.x += bs * Math.cos(bullet.rotation - (90 * Math.PI) / 180);
-		bullet.y += bs * Math.sin(bullet.rotation - (90 * Math.PI) / 180);
+		bullet.x += bulletPx * Math.cos(bullet.rotation - (90 * Math.PI) / 180);
+		bullet.y += bulletPx * Math.sin(bullet.rotation - (90 * Math.PI) / 180);
 		if (bullet.y < 0 || bullet.y > 600 || bullet.x < 0 || bullet.x > 800) {
 			app.stage.removeChild(bullet);
 			bullets.splice(i, 1);

@@ -38,9 +38,9 @@ function setup() {
 	});
 
 	interval = setInterval(() => {
-		timer -= 10;
-		text.text = `${timer / 1000}\n${numOfBullets}\n${score}`;
-	}, 10);
+		timer -= 100;
+		text.text = `${(timer / 1000).toFixed(1)}\n${numOfBullets}\n${score}`;
+	}, 100);
 
 	BG.anchor.set(0.5);
 	BG.x = app.screen.width / 2;

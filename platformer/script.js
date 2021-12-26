@@ -3,6 +3,9 @@ let folder = 'Sunnyland/PNG/';
 PIXI.Loader.shared
 	.add(folder + 'environment/layers/back.png')
 	.add(folder + 'environment/layers/middle.png')
+	.add(folder + 'environment/layers/tileset.png')
+	.add('maps/1.json')
+	.add('maps/1.tmx')
 	.load(setup);
 
 function setup() {
@@ -14,6 +17,7 @@ function setup() {
 		app.screen.height
 	);
 	back.scale.set(app.screen.height / 240);
+
 	let middle = new PIXI.TilingSprite(
 		PIXI.Loader.shared.resources[
 			folder + 'environment/layers/middle.png'

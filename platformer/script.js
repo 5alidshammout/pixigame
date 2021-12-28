@@ -3,9 +3,8 @@ let folder = 'Sunnyland/PNG/';
 PIXI.Loader.shared
 	.add(folder + 'environment/layers/back.png')
 	.add(folder + 'environment/layers/middle.png')
-	.add(folder + 'environment/layers/tileset.png')
-	.add('maps/1.json')
-	.add('maps/1.tmx')
+	.add(folder + 'environment/layers/tilemap.png')
+	.add('json', folder + 'environment/layers/tilemap.json')
 	.load(setup);
 
 function setup() {
@@ -28,7 +27,15 @@ function setup() {
 	middle.position.y = app.screen.height - middle.height;
 	middle.position.x -= 50;
 
-	app.stage.addChild(back, middle);
+	let tilemap = new PIXI.tilemap.CompositeRectTileLayer();
+
+	let textures = PIXI.Loader.shared.resources['json'].textures;
+
+	let size = 32;
+
+	tilemap.addFrame(textures['tile---001.png'], size * 1, size * 1);
+
+	app.stage.addChild(back, middle, tilemap);
 }
 
 document.body.appendChild(app.view);

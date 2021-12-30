@@ -1030,10 +1030,10 @@
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "tilemap.png",
+	"image": "tileset.png",
 	"format": "RGBA8888",
 	"size": {"w":1988,"h":68},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:aa5f97a9e3f47fceff355c1deecf76be:32d63089bc1380c72b5d772598e0d01d:fab6845eb55fa95c274fdcd5aba8663e$"
+	"smartupdate": "$TexturePacker:SmartUpdate:92671b332c6352443623cdd0af146a25:32d63089bc1380c72b5d772598e0d01d:ace0e5e82375743ccde85e973fd84fb5$"
 }
 }

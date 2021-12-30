@@ -1,10 +1,11 @@
-let app = new PIXI.Application({ width: 1000, height: 600 });
+let app = new PIXI.Application({ width: 30 * 32, height: 20 * 32 });
 let folder = 'Sunnyland/PNG/';
 PIXI.Loader.shared
 	.add(folder + 'environment/layers/back.png')
 	.add(folder + 'environment/layers/middle.png')
-	.add(folder + 'environment/layers/tilemap.png')
-	.add('json', folder + 'environment/layers/tilemap.json')
+	.add(folder + 'environment/layers/tileset.png')
+	.add('json', folder + 'environment/layers/tileset.json')
+	.add('maps', 'maps/maps.json')
 	.load(setup);
 
 function setup() {
@@ -33,7 +34,20 @@ function setup() {
 
 	let size = 32;
 
-	tilemap.addFrame(textures['tile---001.png'], size * 1, size * 1);
+	let maps = PIXI.Loader.shared.resources['maps'].data.maps;
+	let arr = maps.LVL1.map;
+
+	console.log(arr);
+	for (let i = 0; i < arr.length; i++) {
+		for (let j = 0; j < arr[i].length; j++) {
+			if (arr[i][j] == '---') continue;
+			tilemap.addFrame(
+				textures['tile---' + arr[i][j] + '.png'],
+				j * size,
+				i * size
+			);
+		}
+	}
 
 	app.stage.addChild(back, middle, tilemap);
 }

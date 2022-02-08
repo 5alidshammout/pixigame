@@ -11,9 +11,10 @@ PIXI.Loader.shared
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
 let player;
-let gravity = 10;
 let size = 32;
 let collidingTiles = ['000', '001', '002', '075', '076', '077'];
+let gravity = 8;
+let velocity = { x: 0, y: 1 };
 
 function setup() {
 	let back = new PIXI.TilingSprite(
@@ -61,13 +62,33 @@ function setup() {
 
 	player.animationSpeed = 0.1;
 	player.anchor.set(0, 1);
-	player.position.set(32, 32 * 17);
+	player.position.set(size * 2, size * 2);
 	player.scale.set((2 * size) / player.width);
 	player.play();
 
-	// PIXI.Ticker.shared.add(_ => {
-	// 	player.position.y += gravity;
-	// });
+	PIXI.Ticker.shared.add(_ => {
+		let y = Math.ceil(player.position.y / 32);
+		let x = Math.ceil(player.position.x / 32);
+		x = [x - 1, x, x + 1].filter(
+			cx =>
+				cx >= 0 &&
+				cx <
+					PIXI.Loader.shared.resources['maps'].data.maps.LVL1.map[0].length - 1
+		);
+		let isAble = true;
+		x.forEach(x => {
+			let tile = [getTileData(x, y), tileCollide(player, getTileData(x, y))];
+
+			if (velocity.y == 1) {
+				if (tile[1] === true) {
+					isAble = false;
+				}
+			}
+		});
+		if (isAble) {
+			player.position.y += gravity * velocity.y;
+		}
+	});
 
 	app.stage.addChild(back, middle, tilemap, player);
 }
@@ -88,13 +109,15 @@ function getTileData(x, y) {
 	];
 }
 function tileCollide(sprite, tile) {
+	if (!collidingTiles.includes(tile[0])) return false;
+
 	let abox = sprite.getBounds();
 	let bbox = tile[2];
 
 	return (
-		abox.x + abox.width > bbox.x &&
-		abox.x < bbox.x + bbox.width &&
-		abox.y + abox.height > bbox.y &&
-		abox.y < bbox.y + bbox.height
+		abox.x + abox.width >= bbox.x &&
+		abox.x <= bbox.x + bbox.width &&
+		abox.y + abox.height >= bbox.y &&
+		abox.y <= bbox.y + bbox.height
 	);
 }

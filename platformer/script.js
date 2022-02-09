@@ -14,6 +14,7 @@ let player;
 let size = 32;
 let collidingTiles = ['000', '001', '002', '075', '076', '077'];
 let gravity = 8;
+let speed = 4;
 let velocity = { x: 0, y: 1 };
 
 function setup() {
@@ -62,7 +63,7 @@ function setup() {
 
 	player.animationSpeed = 0.1;
 	player.anchor.set(0, 1);
-	player.position.set(size * 2, size * 2);
+	player.position.set(size * 6, size * 2);
 	player.scale.set((2 * size) / player.width);
 	player.play();
 
@@ -88,6 +89,38 @@ function setup() {
 		if (isAble) {
 			player.position.y += gravity * velocity.y;
 		}
+
+		let tiles = [
+			[getTileData(x[0], y - 1), tileCollide(player, getTileData(x, y))],
+			[getTileData(x[2], y - 1), tileCollide(player, getTileData(x, y))],
+		];
+		isAble = true;
+		if (velocity.x == 1) {
+			if (
+				player.position.x >= 28 * 32 ||
+				(tiles[1][0][1] == true && tiles[1][1] == true)
+			)
+				isAble = false;
+		} else if (velocity.x == -1) {
+			if (
+				player.position.x <= 0 ||
+				(tiles[0][0][1] == true && tiles[0][1] == true)
+			)
+				isAble = false;
+		}
+		isAble && (player.position.x += velocity.x * speed);
+	});
+
+	window.addEventListener('keydown', e => {
+		if (e.keyCode === 39) {
+			velocity.x = 1;
+		}
+		if (e.keyCode === 37) {
+			velocity.x = -1;
+		}
+	});
+	window.addEventListener('keyup', e => {
+		velocity.x = 0;
 	});
 
 	app.stage.addChild(back, middle, tilemap, player);
